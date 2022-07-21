@@ -1,0 +1,142 @@
+import React, { useState } from 'react';
+import { nanoid } from 'nanoid';
+import { useNavigate } from 'react-router-dom';
+import data from "./components/mock-data.json";
+
+
+
+const Register = () => {
+    const [contacts, setContacts] = useState(data);
+    const [addFormData, setAddFormData] = useState({
+        firstName: '',
+        lastName: '',
+        age: '',
+        email: '',
+        contactNo: ''
+
+    });
+    const handleAddFormChange = (event) => {
+        event.preventDefault();
+
+        const fieldName = event.target.getAttribute('name');
+        const fieldValue = event.target.value;
+
+        const newFormData = { ...addFormData };
+        newFormData[fieldName] = fieldValue;
+
+        setAddFormData(newFormData);
+    };
+
+    const handleAddFormSubmit = (event) => {
+        event.preventDefault();
+
+        const newContact = {
+            id: nanoid(),
+            firstName: addFormData.firstName,
+            lastName: addFormData.lastName,
+            age: addFormData.age,
+            email: addFormData.email,
+            contactNo: addFormData.contactNo,
+        };
+        const newContacts = [...contacts, newContact];
+        setContacts(newContacts);
+    };
+
+    let navigate = useNavigate();
+
+    return (
+        <div>
+            <button className=" btn btn-lg  float-right m-3 btn-warning text-white"
+                onClick={() => {
+                    navigate("/");
+                }}> Home</button>
+            <div className="container py-5 ">
+                <div className="row">
+                    <div className="col-md-10 mx-auto">
+                        <form onSubmit={handleAddFormSubmit}>
+                            <div className="form-group row">
+                                <div className="col-sm-6">
+                                    <label htmlFor="inputFirstname">First name</label>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        className="form-control border border-warning "
+                                        id="inputFirstname"
+                                        placeholder="First name"
+                                        onChange={handleAddFormChange}
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                                    <label htmlFor="inputLastname">Last name</label>
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        className="form-control border border-warning"
+                                        id="inputLastname"
+                                        placeholder="Last name"
+                                        onChange={handleAddFormChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <div className="col-sm-6">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        className="form-control border border-warning"
+                                        id="email"
+                                        placeholder=" Email"
+                                        onChange={handleAddFormChange}
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                        type="password"
+                                        // name="password"
+                                        className="form-control border border-warning"
+                                        id="password"
+                                        placeholder="Password"
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <div className="col-sm-6">
+                                    <label htmlFor="contact">Contact No</label>
+                                    <input
+                                        type="number"
+                                        name="contactNo"
+                                        className="form-control border border-warning"
+                                        id="contact"
+                                        placeholder="Contact no"
+                                        onChange={handleAddFormChange}
+                                    />
+                                </div>
+                                <div className="col-sm-2">
+                                    <label htmlFor="age">Age</label>
+                                    <input
+                                        type="text"
+                                        name="age"
+                                        className="form-control border border-warning"
+                                        id="age"
+                                        placeholder="Age"
+                                        onChange={handleAddFormChange}
+                                    />
+                                </div>
+
+                            </div>
+                            <div className="col-auto text-center m-5 ">
+                                <button type="submit" className="btn btn-warning  mb-2">Add User</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    )
+};
+
+export default Register;
